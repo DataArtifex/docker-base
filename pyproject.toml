@@ -1,0 +1,21 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "dartfx-docker-base"
+version = "0.1.0"
+license = { text = "MIT" }
+dependencies = [
+    "dartfx-ddi @ git+https://github.com/DataArtifex/ddi-toolkit.git@main",
+    "dartfx-qsv @ git+https://github.com/DataArtifex/qsv-toolkit.git@main",
+    "dartfx-rdf @ git+https://github.com/DataArtifex/rdf-toolkit.git@main",
+    "dartfx-unf @ git+https://github.com/DataArtifex/dartfx-unf.git@main",
+    "dartfx-utils @ git+https://github.com/DataArtifex/dartfx-utils.git@main",
+]
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+only-include = ["pyproject.toml"]
