@@ -12,6 +12,7 @@ dependencies = [
     "dartfx-rdf @ git+https://github.com/DataArtifex/rdf-toolkit.git@main",
     "dartfx-unf @ git+https://github.com/DataArtifex/dartfx-unf.git@main",
     "dartfx-utils @ git+https://github.com/DataArtifex/dartfx-utils.git@main",
+    "psycopg[binary]",
 ]
 
 [tool.hatch.metadata]

@@ -24,6 +24,7 @@ PACKAGES=(
   "dartfx.qsv"
   "dartfx.rdf"
   "dartfx.unf"
+  "psycopg"
 )
 
 for pkg in "${PACKAGES[@]}"; do

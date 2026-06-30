@@ -17,6 +17,7 @@ The base environment includes several key components of the Data Artifex ecosyst
 - `qsv-toolkit`
 - `rdf-toolkit`
 - `dartfx-unf`
+- `psycopg` (PostgreSQL adapter with binary extensions)
 
 These dependencies are managed via `pyproject.toml` and installed into `/opt/venv` within the container.
 

@@ -1,11 +1,11 @@
 # dartfx/docker-base
 
-`dartfx/docker-base` is the official core base Docker image for the **Data Artifex** platform. It provides a secure, high-performance runtime environment with pre-installed system utilities (such as `qsv`, `curl`, and `jq`) and a synchronized Python virtual environment containing the core Data Artifex libraries (`dartfx-utils`, `ddi-toolkit`, `qsv-toolkit`, `rdf-toolkit`, and `dartfx-unf`).
+`dartfx/docker-base` is the official core base Docker image for the **Data Artifex** platform. It provides a secure, high-performance runtime environment with pre-installed system utilities (such as `qsv`, `curl`, and `jq`) and a synchronized Python virtual environment containing the core Data Artifex libraries (`dartfx-utils`, `ddi-toolkit`, `qsv-toolkit`, `rdf-toolkit`, `dartfx-unf`) and the `psycopg` PostgreSQL driver.
 
 ## Key Features
 
 * **Python Virtual Environment**: Ready-to-use virtual environment located at `/opt/venv` (pre-configured in the `PATH`).
-* **Core Data Artifex Packages**: Pre-installed ecosystem libraries: `dartfx-utils`, `ddi-toolkit`, `qsv-toolkit`, `rdf-toolkit`, and `dartfx-unf`.
+* **Core Data Artifex & Database Packages**: Pre-installed ecosystem libraries (`dartfx-utils`, `ddi-toolkit`, `qsv-toolkit`, `rdf-toolkit`, `dartfx-unf`) and `psycopg[binary]`.
 * **System Utilities**: High-performance CSV-wrangling tool `qsv`, plus `curl`, `jq`, `unzip`, and certificates.
 * **Security Defaults**:
   * Runs under a non-privileged system user: **`appuser`** (UID `10001`, GID `10001` under **`appgroup`**).
