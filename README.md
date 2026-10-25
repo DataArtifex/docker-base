@@ -1,5 +1,11 @@
 # dartfx/docker-base
 
+[![Docker Image](https://img.shields.io/docker/v/dartfx/docker-base?sort=semver&logo=docker&label=Docker%20Hub)](https://hub.docker.com/r/dartfx/docker-base)
+[![Docker Pulls](https://img.shields.io/docker/pulls/dartfx/docker-base?logo=docker)](https://hub.docker.com/r/dartfx/docker-base)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
+Public Docker Repository: [**hub.docker.com/r/dartfx/docker-base**](https://hub.docker.com/r/dartfx/docker-base)
+
 This repository contains the configuration for the base Docker image used by the **Data Artifex** platform. This image serves as the foundation for services, APIs, and other system components of the Data Artifex, providing a synchronized Python virtual environment and pre-installed system utilities.
 
 ## Architecture & Structure
@@ -12,11 +18,20 @@ The Docker image is built using a multi-stage `Dockerfile`:
 ## Package Dependencies
 
 The base environment includes several key components of the Data Artifex ecosystem:
+
+### Core Toolkits & Utilities
 - `dartfx-utils`
-- `ddi-toolkit`
-- `qsv-toolkit`
-- `rdf-toolkit`
+- `ddi-toolkit` (`dartfx-ddi`)
+- `qsv-toolkit` (`dartfx-qsv`)
+- `rdf-toolkit` (`dartfx-rdf`)
 - `dartfx-unf`
+
+### Cataloguing & Harvesting Toolkits
+- `ckan-toolkit` (`dartfx-ckan`) - CKAN repository cataloguing and harvesting
+- `dataverse-toolkit` (`dartfx-dataverse`) - Dataverse repository cataloguing and harvesting
+- `nada-toolkit` (`dartfx-nada`) - NADA cataloguing and harvesting
+
+### Database Adapters
 - `psycopg` (PostgreSQL adapter with binary extensions)
 
 These dependencies are managed via `pyproject.toml` and installed into `/opt/venv` within the container.
@@ -49,9 +64,21 @@ Never hardcode or build secrets (API keys, database passwords, SSL/TLS certifica
 
 ## Getting Started
 
-### Building the Image
+### Pulling the Image
 
-To build the Docker image locally, run:
+The pre-built multi-architecture image (`linux/amd64` and `linux/arm64`) is publicly available on Docker Hub:
+
+```bash
+# Pull the latest version
+docker pull dartfx/docker-base:latest
+
+# Or pull a specific release version
+docker pull dartfx/docker-base:0.2.0
+```
+
+### Building the Image Locally
+
+To build the Docker image locally from source, run:
 
 ```bash
 docker build -t dartfx/docker-base:latest .
@@ -127,10 +154,12 @@ To push to an alternate registry (like GitHub Container Registry or AWS ECR):
 
 ```
 Options:
-  -n, --namespace <name>  Docker Hub namespace/username (default: dartfx)
+  -n, --namespace <name>   Docker Hub namespace/username (default: dartfx)
   -t, --tag <tag>          Additional custom tag to push
   -r, --registry <url>     Target container registry (default: docker.io)
+  -p, --platform <plat>    Target platform (e.g. linux/amd64, linux/arm64) (default: linux/amd64,linux/arm64)
   -s, --skip-verification  Skip running verify_image.sh before pushing
+  -f, --rebuild, --force   Force a clean rebuild with --no-cache
   -h, --help               Show usage help
 ```
 

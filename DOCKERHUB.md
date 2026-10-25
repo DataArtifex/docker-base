@@ -1,11 +1,11 @@
 # dartfx/docker-base
 
-`dartfx/docker-base` is the official core base Docker image for the **Data Artifex** platform. It provides a secure, high-performance runtime environment with pre-installed system utilities (such as `qsv`, `curl`, and `jq`) and a synchronized Python virtual environment containing the core Data Artifex libraries (`dartfx-utils`, `ddi-toolkit`, `qsv-toolkit`, `rdf-toolkit`, `dartfx-unf`) and the `psycopg` PostgreSQL driver.
+`dartfx/docker-base` is the official core base Docker image for the **Data Artifex** platform. It provides a secure, high-performance runtime environment with pre-installed system utilities (such as `qsv`, `curl`, and `jq`) and a synchronized Python virtual environment containing the core Data Artifex libraries (`dartfx-utils`, `ddi-toolkit`, `qsv-toolkit`, `rdf-toolkit`, `dartfx-unf`), cataloguing and harvesting toolkits (`ckan-toolkit`, `dataverse-toolkit`, `nada-toolkit`), and the `psycopg` PostgreSQL driver.
 
 ## Key Features
 
 * **Python Virtual Environment**: Ready-to-use virtual environment located at `/opt/venv` (pre-configured in the `PATH`).
-* **Core Data Artifex & Database Packages**: Pre-installed ecosystem libraries (`dartfx-utils`, `ddi-toolkit`, `qsv-toolkit`, `rdf-toolkit`, `dartfx-unf`) and `psycopg[binary]`.
+* **Core Data Artifex, Cataloguing, & Database Packages**: Pre-installed ecosystem libraries (`dartfx-utils`, `ddi-toolkit`, `qsv-toolkit`, `rdf-toolkit`, `dartfx-unf`), cataloguing and harvesting packages (`ckan-toolkit`, `dataverse-toolkit`, `nada-toolkit`), and `psycopg[binary]`.
 * **System Utilities**: High-performance CSV-wrangling tool `qsv`, plus `curl`, `jq`, `unzip`, and certificates.
 * **Security Defaults**:
   * Runs under a non-privileged system user: **`appuser`** (UID `10001`, GID `10001` under **`appgroup`**).
@@ -107,6 +107,6 @@ docker run --rm dartfx/docker-base:latest python -c "import dartfx.utils; print(
 1. **Read-Only Root Filesystem**: Configure your container orchestrator (e.g., Kubernetes or ECS) to run with a read-only root filesystem (`readOnlyRootFilesystem: true`). Mount a `tmpfs` volume at `/tmp` if your application needs to write temporary files.
 2. **Pin Base Image Versions**: For production stability, pin the base image to a specific version tag or digest:
    ```dockerfile
-   FROM dartfx/docker-base:0.1.0
+   FROM dartfx/docker-base:0.2.0
    ```
 3. **Secrets Management**: Never build secrets (API keys, database credentials) into your image layers. Always inject them at runtime via environment variables.

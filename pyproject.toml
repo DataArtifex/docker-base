@@ -4,10 +4,13 @@ build-backend = "hatchling.build"
 
 [project]
 name = "dartfx-docker-base"
-version = "0.1.0"
+version = "0.2.0"
 license = { text = "MIT" }
 dependencies = [
+    "dartfx-ckan @ git+https://github.com/DataArtifex/ckan-toolkit.git@main",
     "dartfx-ddi @ git+https://github.com/DataArtifex/ddi-toolkit.git@main",
+    "dartfx-dataverse @ git+https://github.com/DataArtifex/dataverse-toolkit.git@main",
+    "dartfx-nada @ git+https://github.com/DataArtifex/nada-toolkit.git@main",
     "dartfx-qsv @ git+https://github.com/DataArtifex/qsv-toolkit.git@main",
     "dartfx-rdf @ git+https://github.com/DataArtifex/rdf-toolkit.git@main",
     "dartfx-unf @ git+https://github.com/DataArtifex/dartfx-unf.git@main",
