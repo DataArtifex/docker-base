@@ -13,10 +13,13 @@ usage() {
   echo "Usage: $0 [options]"
   echo "Options:"
   echo "  -n, --namespace <name>  Docker Hub namespace/username (default: $DEFAULT_NAMESPACE)"
+  echo "  -q, --qsv-version <ver> Explicit QSV version tag (e.g. 27.0.1) (default: latest)"
+  echo "      --qsv-image <img    Explicit QSV image (default: dartfx/qsv:staging or latest)"
   echo "  -t, --tag <tag>          Additional custom tag to push"
   echo "  -r, --registry <url>     Target container registry (default: $DEFAULT_REGISTRY)"
   echo "  -p, --platform <plat>    Target platform (e.g. linux/amd64, linux/arm64) (default: $DEFAULT_PLATFORM)"
   echo "  -s, --skip-verification  Skip running verify_image.sh before pushing"
+  echo "  --staging                Publish as staging tags ('staging' and '<version>-staging') instead of 'latest'"
   echo "  -f, --rebuild, --force   Force a clean rebuild with --no-cache"
   echo "  -h, --help               Show this help message"
   exit "${1:-1}"
@@ -28,13 +31,28 @@ CUSTOM_TAG=""
 REGISTRY="$DEFAULT_REGISTRY"
 SKIP_VERIFICATION=false
 REBUILD=false
+STAGING=false
 PLATFORM="$DEFAULT_PLATFORM"
+QSV_VERSION="${QSV_VERSION:-}"
+QSV_IMAGE="${QSV_IMAGE:-}"
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
     -n|--namespace)
       NAMESPACE="$2"
       shift 2
+      ;;
+    -q|--qsv-version)
+      QSV_VERSION="${2#v}"
+      shift 2
+      ;;
+    --qsv-image)
+      QSV_IMAGE="$2"
+      shift 2
+      ;;
+    --staging)
+      STAGING=true
+      shift
       ;;
     -t|--tag)
       CUSTOM_TAG="$2"
@@ -66,14 +84,29 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
+# Resolve QSV source image
+if [ -z "$QSV_IMAGE" ]; then
+  if [ "$STAGING" = true ]; then
+    QSV_IMAGE="${NAMESPACE}/qsv:staging"
+  elif [ -n "$QSV_VERSION" ]; then
+    QSV_IMAGE="${NAMESPACE}/qsv:${QSV_VERSION}"
+  else
+    QSV_IMAGE="${NAMESPACE}/qsv:latest"
+  fi
+fi
+
 # 1. Build/rebuild the local native image for verification
+EXTRA_BUILD_ARGS=(--build-arg "QSV_IMAGE=${QSV_IMAGE}")
+echo "Using QSV Source Image: ${QSV_IMAGE}"
+
+
 if [ "$SKIP_VERIFICATION" = false ]; then
   if [ "$REBUILD" = true ] || ! docker image inspect "${LOCAL_IMAGE}" >/dev/null 2>&1; then
     echo "=== Rebuilding the local image for verification (native host platform) ==="
-    docker build --pull --no-cache -t "${LOCAL_IMAGE}" .
+    docker build --pull --no-cache "${EXTRA_BUILD_ARGS[@]}" -t "${LOCAL_IMAGE}" .
   else
     echo "=== Ensuring the local image is built for verification (native host platform) ==="
-    docker build --pull -t "${LOCAL_IMAGE}" .
+    docker build --pull "${EXTRA_BUILD_ARGS[@]}" -t "${LOCAL_IMAGE}" .
   fi
 
   # 2. Verify image first
@@ -96,7 +129,11 @@ if [ -z "$VERSION" ]; then
 fi
 
 # Determine tags to push
-TAGS=("latest" "$VERSION")
+if [ "$STAGING" = true ]; then
+  TAGS=("staging" "${VERSION}-staging")
+else
+  TAGS=("latest" "$VERSION")
+fi
 if [ -n "$CUSTOM_TAG" ]; then
   TAGS+=("$CUSTOM_TAG")
 fi
@@ -135,9 +172,9 @@ if [[ "$PLATFORM" == *","* ]]; then
 fi
 
 if [ "$REBUILD" = true ]; then
-  docker buildx build --platform "${PLATFORM}" --pull --no-cache "${BUILDX_TAGS[@]}" --push .
+  docker buildx build --platform "${PLATFORM}" "${EXTRA_BUILD_ARGS[@]}" --pull --no-cache "${BUILDX_TAGS[@]}" --push .
 else
-  docker buildx build --platform "${PLATFORM}" --pull "${BUILDX_TAGS[@]}" --push .
+  docker buildx build --platform "${PLATFORM}" "${EXTRA_BUILD_ARGS[@]}" --pull "${BUILDX_TAGS[@]}" --push .
 fi
 
 echo "=== Successfully published all tags! ==="

@@ -1,3 +1,6 @@
+ARG QSV_IMAGE="dartfx/qsv:latest"
+FROM ${QSV_IMAGE} AS qsv-source
+
 # --- Stage 1: Build & Sync Environment (Python Packages Only) ---
 FROM python:3.14-slim AS builder
 
@@ -28,30 +31,16 @@ RUN groupadd -g 10001 appgroup && \
 COPY --from=builder /opt/venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 
-# 2. Install QSV and its bootstrap dependencies
-# We use bash explicitly because the script uses double-bracket [[ ]] syntax
-SHELL ["/bin/bash", "-c"]
+# 2. Install full-featured QSV binary and runtime utilities
+COPY --from=qsv-source /usr/local/bin/qsv /usr/local/bin/qsv
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     curl \
-    wget \
-    gnupg \
     jq \
-    unzip \
-    && arch=$(dpkg --print-architecture); \
-    if [[ "$arch" == "amd64" ]]; then \
-        wget -O - https://dathere.github.io/qsv-deb-releases/qsv-deb.gpg | gpg --dearmor -o /usr/share/keyrings/qsv-deb.gpg; \
-        echo "deb [signed-by=/usr/share/keyrings/qsv-deb.gpg] https://dathere.github.io/qsv-deb-releases ./" > /etc/apt/sources.list.d/qsv.list; \
-        apt-get update && apt-get install -y --no-install-recommends qsv; \
-    elif [[ "$arch" == "arm64" ]]; then \
-        version=$(curl -fsSL https://api.github.com/repos/dathere/qsv/releases/latest | jq -r '.tag_name'); \
-        curl -fsSL "https://github.com/dathere/qsv/releases/download/${version}/qsv-${version}-aarch64-unknown-linux-gnu.zip" -o /tmp/qsv.zip; \
-        unzip /tmp/qsv.zip -d /tmp/qsv; \
-        install -m 0755 /tmp/qsv/qsv /usr/local/bin/qsv; \
-        rm -rf /tmp/qsv /tmp/qsv.zip; \
-    fi \
-    && apt-get purge -y --auto-remove wget gnupg unzip \
+    libstdc++6 \
+    && /usr/local/bin/qsv --version \
     && rm -rf /var/lib/apt/lists/*
+
 
 # Clean environment baseline ready to be published
