@@ -4,8 +4,8 @@ set -euo pipefail
 # Default configuration
 DEFAULT_REGISTRY="docker.io"  # Docker Hub
 DEFAULT_NAMESPACE="dartfx"
-IMAGE_NAME="docker-base"
-LOCAL_IMAGE="dartfx/docker-base:latest"
+IMAGE_NAME="base"
+LOCAL_IMAGE="dartfx/base:latest"
 DEFAULT_PLATFORM="linux/amd64,linux/arm64"
 
 # Helper for showing usage

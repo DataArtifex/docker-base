@@ -1,10 +1,10 @@
-# dartfx/docker-base
+# dartfx/base
 
-[![Docker Image](https://img.shields.io/docker/v/dartfx/docker-base?sort=semver&logo=docker&label=Docker%20Hub)](https://hub.docker.com/r/dartfx/docker-base)
-[![Docker Pulls](https://img.shields.io/docker/pulls/dartfx/docker-base?logo=docker)](https://hub.docker.com/r/dartfx/docker-base)
+[![Docker Image](https://img.shields.io/docker/v/dartfx/base?sort=semver&logo=docker&label=Docker%20Hub)](https://hub.docker.com/r/dartfx/base)
+[![Docker Pulls](https://img.shields.io/docker/pulls/dartfx/base?logo=docker)](https://hub.docker.com/r/dartfx/base)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-Public Docker Repository: [**hub.docker.com/r/dartfx/docker-base**](https://hub.docker.com/r/dartfx/docker-base)
+Public Docker Repository: [**hub.docker.com/r/dartfx/base**](https://hub.docker.com/r/dartfx/base)
 
 This repository contains the configuration for the base Docker image used by the **Data Artifex** platform. This image serves as the foundation for services, APIs, and other system components of the Data Artifex, providing a synchronized Python virtual environment and pre-installed system utilities.
 
@@ -70,10 +70,10 @@ The pre-built multi-architecture image (`linux/amd64` and `linux/arm64`) is publ
 
 ```bash
 # Pull the latest version
-docker pull dartfx/docker-base:latest
+docker pull dartfx/base:latest
 
 # Or pull a specific release version
-docker pull dartfx/docker-base:0.2.0
+docker pull dartfx/base:0.2.0
 ```
 
 ### Building the Image Locally
@@ -81,7 +81,7 @@ docker pull dartfx/docker-base:0.2.0
 To build the Docker image locally from source, run:
 
 ```bash
-docker build -t dartfx/docker-base:latest .
+docker build -t dartfx/base:latest .
 ```
 
 ### Verifying the Image
@@ -100,7 +100,7 @@ To debug or inspect the container environment, you can log into the container's 
 
 #### Option A: Start a new container with an interactive shell
 ```bash
-docker run --rm -it dartfx/docker-base:latest /bin/bash
+docker run --rm -it dartfx/base:latest /bin/bash
 ```
 
 #### Option B: Open a shell in an already running container

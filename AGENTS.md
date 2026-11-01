@@ -1,6 +1,6 @@
 # AGENTS INSTRUCTIONS
 
-This project builds a base Docker image for the Data Artifex.
+This project builds the base Docker image for Data Artifex (`dartfx/base`).
 This image is intended to be used as a base image for other Docker images that will be used to run API,
 services, and other components of the Data Artifex.
 

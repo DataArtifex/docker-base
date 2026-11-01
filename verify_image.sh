@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-IMAGE_NAME="${1:-dartfx/docker-base:latest}"
+IMAGE_NAME="${1:-dartfx/base:latest}"
 
 echo "=== Verifying Docker Image: ${IMAGE_NAME} ==="
 

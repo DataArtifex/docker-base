@@ -1,6 +1,6 @@
-# dartfx/docker-base
+# dartfx/base
 
-`dartfx/docker-base` is the official core base Docker image for the **Data Artifex** platform. It provides a secure, high-performance runtime environment with pre-installed system utilities (such as `qsv`, `curl`, and `jq`) and a synchronized Python virtual environment containing the core Data Artifex libraries (`dartfx-utils`, `ddi-toolkit`, `qsv-toolkit`, `rdf-toolkit`, `dartfx-unf`), cataloguing and harvesting toolkits (`ckan-toolkit`, `dataverse-toolkit`, `nada-toolkit`), and the `psycopg` PostgreSQL driver.
+`dartfx/base` is the official core base Docker image for the **Data Artifex** platform. It provides a secure, high-performance runtime environment with pre-installed system utilities (such as `qsv`, `curl`, and `jq`) and a synchronized Python virtual environment containing the core Data Artifex libraries (`dartfx-utils`, `ddi-toolkit`, `qsv-toolkit`, `rdf-toolkit`, `dartfx-unf`), cataloguing and harvesting toolkits (`ckan-toolkit`, `dataverse-toolkit`, `nada-toolkit`), and the `psycopg` PostgreSQL driver.
 
 ## Key Features
 
@@ -59,7 +59,7 @@ packages = ["src/my_service"]
 
 ```dockerfile
 # --- Builder Stage ---
-FROM dartfx/docker-base:latest AS builder
+FROM dartfx/base:latest AS builder
 WORKDIR /app
 
 # Install uv for fast package management
@@ -78,7 +78,7 @@ COPY . /app
 RUN uv pip install --no-cache --no-deps .
 
 # --- Runtime Stage ---
-FROM dartfx/docker-base:latest
+FROM dartfx/base:latest
 WORKDIR /app
 
 # Copy the updated virtual environment and application code with proper ownership
@@ -99,7 +99,7 @@ CMD ["python", "-m", "my_service.main"]
 You can run the base image directly to check the Python environment:
 
 ```bash
-docker run --rm dartfx/docker-base:latest python -c "import dartfx.utils; print('dartfx-utils imported successfully!')"
+docker run --rm dartfx/base:latest python -c "import dartfx.utils; print('dartfx-utils imported successfully!')"
 ```
 
 ## Production Guidelines
@@ -107,6 +107,6 @@ docker run --rm dartfx/docker-base:latest python -c "import dartfx.utils; print(
 1. **Read-Only Root Filesystem**: Configure your container orchestrator (e.g., Kubernetes or ECS) to run with a read-only root filesystem (`readOnlyRootFilesystem: true`). Mount a `tmpfs` volume at `/tmp` if your application needs to write temporary files.
 2. **Pin Base Image Versions**: For production stability, pin the base image to a specific version tag or digest:
    ```dockerfile
-   FROM dartfx/docker-base:0.2.0
+   FROM dartfx/base:0.2.0
    ```
 3. **Secrets Management**: Never build secrets (API keys, database credentials) into your image layers. Always inject them at runtime via environment variables.
