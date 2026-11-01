@@ -6,7 +6,7 @@
 
 * **Python Virtual Environment**: Ready-to-use virtual environment located at `/opt/venv` (pre-configured in the `PATH`).
 * **Core Data Artifex, Cataloguing, & Database Packages**: Pre-installed ecosystem libraries (`dartfx-utils`, `ddi-toolkit`, `qsv-toolkit`, `rdf-toolkit`, `dartfx-unf`), cataloguing and harvesting packages (`ckan-toolkit`, `dataverse-toolkit`, `nada-toolkit`), and `psycopg[binary]`.
-* **System Utilities**: High-performance CSV-wrangling tool `qsv`, plus `curl`, `jq`, `unzip`, and certificates.
+* **System Utilities**: Full-featured, multi-architecture distribution of `qsv` (including Polars SQL engine `sqlp`, Luau scripting, format conversions `to`, and geocoding `geocode` imported from `dartfx/qsv`), plus `curl`, `jq`, and certificates.
 * **Security Defaults**:
   * Runs under a non-privileged system user: **`appuser`** (UID `10001`, GID `10001` under **`appgroup`**).
   * Optimized for read-only root filesystems (`--read-only`).
