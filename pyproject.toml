@@ -5,6 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "dartfx-docker-base"
 version = "0.2.0"
+authors = [{ name = "Data Artifex", email = "support@dataartifex.org" }]
 license = { text = "MIT" }
 dependencies = [
     "dartfx-ckan @ git+https://github.com/DataArtifex/ckan-toolkit.git@main",

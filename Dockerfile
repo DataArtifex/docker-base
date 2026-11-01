@@ -20,6 +20,10 @@ RUN uv pip install .
 # --- Stage 2: Final Published Core Runtime ---
 FROM python:3.14-slim
 
+LABEL maintainer="Data Artifex <support@dataartifex.org>"
+LABEL org.opencontainers.image.authors="Data Artifex <support@dataartifex.org>"
+LABEL description="Base runtime environment for Data Artifex ecosystem"
+
 WORKDIR /app
 
 # Create a non-privileged system user and group
