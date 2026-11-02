@@ -110,3 +110,12 @@ docker run --rm dartfx/base:latest python -c "import dartfx.utils; print('dartfx
    FROM dartfx/base:0.2.0
    ```
 3. **Secrets Management**: Never build secrets (API keys, database credentials) into your image layers. Always inject them at runtime via environment variables.
+
+---
+
+## Contact & Maintenance
+
+Maintained by **Data Artifex**  
+Support: [support@dataartifex.org](mailto:support@dataartifex.org)  
+GitHub: [https://github.com/dataartifex](https://github.com/dataartifex)
+
