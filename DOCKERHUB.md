@@ -107,7 +107,7 @@ docker run --rm dartfx/base:latest python -c "import dartfx.utils; print('dartfx
 1. **Read-Only Root Filesystem**: Configure your container orchestrator (e.g., Kubernetes or ECS) to run with a read-only root filesystem (`readOnlyRootFilesystem: true`). Mount a `tmpfs` volume at `/tmp` if your application needs to write temporary files.
 2. **Pin Base Image Versions**: For production stability, pin the base image to a specific version tag or digest:
    ```dockerfile
-   FROM dartfx/base:0.2.0
+   FROM dartfx/base:0.3.0
    ```
 3. **Secrets Management**: Never build secrets (API keys, database credentials) into your image layers. Always inject them at runtime via environment variables.
 

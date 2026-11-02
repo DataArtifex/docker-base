@@ -73,7 +73,7 @@ The pre-built multi-architecture image (`linux/amd64` and `linux/arm64`) is publ
 docker pull dartfx/base:latest
 
 # Or pull a specific release version
-docker pull dartfx/base:0.2.0
+docker pull dartfx/base:0.3.0
 ```
 
 ### Building the Image Locally
